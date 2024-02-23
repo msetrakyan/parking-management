@@ -10,4 +10,3 @@ The maintaining of correct bookings in the DB is done by 2 scheduling methods, o
 
 Project is secured using JWT, there are 2 roles, user and admin.
 
-Unit tests are written only for one repository, due to Time management issues.
