@@ -1,6 +1,6 @@
 package com.parking.parkingmanagement.controller;
 
-import com.parking.parkingmanagement.service.service.impl.AuthenticationServiceImpl;
+import com.parking.parkingmanagement.service.authentication.impl.AuthenticationServiceImpl;
 import com.parking.parkingmanagement.model.auth.AuthenticationRequest;
 import com.parking.parkingmanagement.model.auth.AuthenticationResponse;
 import com.parking.parkingmanagement.model.auth.RegisterRequest;

@@ -1,4 +1,4 @@
-package com.parking.parkingmanagement.service.service;
+package com.parking.parkingmanagement.service.authentication;
 
 import com.parking.parkingmanagement.model.auth.AuthenticationRequest;
 import com.parking.parkingmanagement.model.auth.AuthenticationResponse;

@@ -17,6 +17,7 @@ import com.parking.parkingmanagement.service.parking.ParkingService;
 import com.parking.parkingmanagement.util.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,7 @@ public class ParkingServiceImpl implements ParkingService {
 
 
     @Override
+    @Transactional
     public ParkingDto create(ParkingCreateRequest parkingCreateRequest) {
 
         if(parkingRepository.findByParkingNumberAndCommunity(parkingCreateRequest.getParkingNumber(), parkingCreateRequest.getCommunity()).isPresent()) {
@@ -46,6 +48,7 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
+    @Transactional
     public ParkingDto update(ParkingEntity parkingEntity) {
 
         ParkingEntity parking = parkingRepository
@@ -60,12 +63,14 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
+    @Transactional
     public void delete(ParkingEntity parkingEntity) {
         Optional<ParkingEntity> byParkingNumberAndCommunity = parkingRepository.findByParkingNumberAndCommunity(parkingEntity.getParkingNumber(), CurrentUser.getCommunity());
         byParkingNumberAndCommunity.ifPresent(parkingRepository::delete);
     }
 
     @Override
+    @Transactional
     public ParkingDto findByRowAndCommunity(Integer parkingNumber, Community community) {
         return parkingMapper
                 .toDto(parkingRepository
@@ -74,16 +79,19 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
+    @Transactional
     public List<ParkingDto> findAllByCommunity(Community community) {
         return parkingMapper.toParkingDtos(parkingRepository.findAllByCommunity(community));
     }
 
     @Override
+    @Transactional
     public List<ParkingDto> availableParkingByCommunity(Community community) {
-        return parkingMapper.toParkingDtos(parkingRepository.findAllAvailableByCommunity(community));
+        return parkingMapper.toParkingDtos(parkingRepository.findAllAvailableByCommunity(community.getName()));
     }
 
     @Override
+    @Transactional
     public ParkingDto park(Integer parkingId) {
 
         UserEntity userEntity = userRepository.findById(CurrentUser.getId()).orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -100,6 +108,7 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
+    @Transactional
     public void release() {
         Optional<ParkingEntity> byId = parkingRepository.findByUserId(CurrentUser.getId());
         if(byId.isPresent()) {

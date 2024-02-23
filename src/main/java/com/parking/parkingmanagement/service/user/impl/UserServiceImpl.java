@@ -11,6 +11,7 @@ import com.parking.parkingmanagement.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public UserDto create(UserCreateRequest userCreateRequest) {
 
         if(userRepository.findByUsername(userCreateRequest.getUsername()).isPresent()) {
@@ -33,17 +35,17 @@ public class UserServiceImpl implements UserService {
         UserEntity entity = userMapper.toEntity(userCreateRequest);
         entity.setLastname(passwordEncoder.encode(entity.getPassword()));
 
-
-
         return userMapper.toDto(userRepository.save(entity));
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         userRepository.findById(id).ifPresent(userRepository::delete);
     }
 
     @Override
+    @Transactional
     public UserDto update(UserEntity userEntity) {
 
         UserEntity user = userRepository.findById(userEntity.getId())
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto findById(Integer id) {
         return userMapper.toDto(userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(String
@@ -68,6 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto findByUsername(String username) {
         return userMapper
                 .toDto(userRepository.findByUsername(username)
@@ -76,6 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<UserDto> findAll() {
         return userMapper.toUserDto(userRepository.findAll());
     }

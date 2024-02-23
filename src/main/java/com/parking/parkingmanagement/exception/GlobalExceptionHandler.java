@@ -26,6 +26,14 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, exception.getMessage(), request.getRequestURI());
     }
 
+    @ExceptionHandler(WrongDateTimeInputException.class)
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    public ResponseEntity<ApiError> handleDuplicationException(HttpServletRequest request, WrongDateTimeInputException exception) {
+        logError(request, exception);
+        return buildResponse(HttpStatus.CONFLICT, exception.getMessage(), request.getRequestURI());
+    }
+
+
     @ExceptionHandler(AlreadyBookedException.class)
     @ResponseStatus(code = HttpStatus.CONFLICT)
     public ResponseEntity<ApiError> handleDuplicationException(HttpServletRequest request, AlreadyBookedException exception) {

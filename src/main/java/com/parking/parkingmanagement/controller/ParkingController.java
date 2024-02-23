@@ -28,6 +28,11 @@ public class ParkingController {
         return ResponseEntity.ok(parkingService.findAllByCommunity(CurrentUser.getCommunity()));
     }
 
+    @GetMapping ("/available")
+    public ResponseEntity<List<ParkingDto>> getAvailableParking() {
+        return ResponseEntity.ok(parkingService.availableParkingByCommunity(CurrentUser.getCommunity()));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ParkingDto> park(@PathVariable Integer id) {
         return ResponseEntity.ok(parkingService.park(id));

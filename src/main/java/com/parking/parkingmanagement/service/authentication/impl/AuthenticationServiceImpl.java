@@ -1,4 +1,4 @@
-package com.parking.parkingmanagement.service.service.impl;
+package com.parking.parkingmanagement.service.authentication.impl;
 
 import com.parking.parkingmanagement.config.security.jwt.JwtService;
 import com.parking.parkingmanagement.constants.Role;
@@ -8,12 +8,13 @@ import com.parking.parkingmanagement.model.auth.AuthenticationResponse;
 import com.parking.parkingmanagement.model.auth.RegisterRequest;
 import com.parking.parkingmanagement.model.user.UserEntity;
 import com.parking.parkingmanagement.repository.UserRepository;
-import com.parking.parkingmanagement.service.service.AuthenticationService;
+import com.parking.parkingmanagement.service.authentication.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
+    @Transactional
     public AuthenticationResponse register(RegisterRequest registerRequest) {
 
         if(userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
@@ -48,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
 
-
+    @Transactional
     public AuthenticationResponse login(AuthenticationRequest request) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));

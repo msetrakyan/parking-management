@@ -50,12 +50,6 @@ public class ParkingMapperImpl implements ParkingMapper {
 
     @Override
     public List<ParkingDto> toParkingDtos(List<ParkingEntity> parkingEntities) {
-//        List<ParkingDto> list = new ArrayList<>();
-//        for (ParkingEntity parkingEntity : parkingEntities) {
-//            list.add(toDto(parkingEntity));
-//
-//        }
-//        return list;
         return parkingEntities.stream().map(this::toDto).toList();
     }
 }
